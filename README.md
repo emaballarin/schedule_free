@@ -1,4 +1,6 @@
 # Schedule-Free Learning
+[![Downloads](https://static.pepy.tech/badge/schedulefree)](https://pepy.tech/project/schedulefree) [![Downloads](https://static.pepy.tech/badge/schedulefree/month)](https://pepy.tech/project/schedulefree)
+
 Schedule-Free Optimizers in PyTorch.
 
 Preprint: [The Road Less Scheduled](https://arxiv.org/abs/2405.15682)
@@ -9,7 +11,7 @@ Authors: Aaron Defazio, Xingyu (Alice) Yang, Harsh Mehta, Konstantin Mishchenko,
 
 ``` pip install schedulefree ```
 
-Primary implementations are `SGDScheduleFree` and `AdamWScheduleFree`. We also have a `AdamWScheduleFreeReference` version which has a simplified implementation, but which uses more memory. To combine with other optimizers, use the ScheduleFreeWrapper version.
+Primary implementations are `SGDScheduleFree` and `AdamWScheduleFree`. We also have `AdamWScheduleFreeReference` and `SGDScheduleFreeReference` versions which have a simplified implementation, but which use more memory. To combine with other optimizers, use the experimental ScheduleFreeWrapper version.
 
 A [Jax implementation](https://optax.readthedocs.io/en/latest/api/contrib.html#schedule-free) is availiable as part of Optax.
 
@@ -49,6 +51,11 @@ If you use Schedule-Free training in your work, please cite our [preprint](https
 }
 ```
 
+### Releases
+
+*New* Version 1.3 changes the behavior of weight decay during learning rate warmup
+to improve stabiliy and be more consistant with the behavior of standard AdamW in PyTorch. The previous implementation is still available as `AdamWScheduleFreePaper`.
+
 ### Examples
 Examples of using the `schedulefree` package can be found in the `examples` folder. These include:
 - [Image classification (MNIST) using Convnets](./examples/mnist/)*
@@ -81,7 +88,7 @@ This will replace the `training_mean`/`training_var` cache (which is updated in 
 
  # Wrapper Version
 
-We offer an experimental wrapper version `ScheduleFreeWrapper` which can wrap any base optimizer. When using this version, you can disable the base optimizer's 
+We offer a highly experimental wrapper version `ScheduleFreeWrapper` which can wrap any base optimizer. When using this version, you can disable the base optimizer's 
  momentum, as it's no longer necessary when using our wrapper's momentum (although you can use both types of momentum if you want).
 
  Example usage:
@@ -93,7 +100,7 @@ We offer an experimental wrapper version `ScheduleFreeWrapper` which can wrap an
  If you set weight decay on the base optimizer, it computes weight decay at $z$. We offer the option to compute weight decay at $y$, via the `weight_decay_at_y`
  parameter, which seems to give better results in our experiments.
 
-We also include a ScheduleFreeWrapperReference version which uses more memory but is more numerically stable, we recommended this version for early experimentation or research work.
+We also include a ScheduleFreeWrapperReference version which uses more memory but is more numerically stable, we recommended this version for early experimentation or research work. 
 
 # License
 See the [License file](/LICENSE).
